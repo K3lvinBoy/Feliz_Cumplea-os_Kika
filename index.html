@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta Especial para Ti</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+    --primario: #ffffff;
+    --fondo: #f6f6f6;
+
+    /* COLOR DEL SOBRE */
+    --fondo-sobre: #8EC5FC;
+    --solapa-sobre: #8EC5FC;
+    --cuerpo-sobre: #2B7FFF;
+;
+
+    --sombra: rgba(0, 0, 0, 0.25);
+
+    --texto: #020618;
+    --dorado: #020618;
+    --rojo: #8A0194;
+}
+
+
+
+        body {
+            background: var(--fondo);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-family: "Pacifico", cursive;
+            font-size: 44px;
+            margin-bottom: 30px;
+            color: #020618;
+        }
+
+        .contenedor {
+            width: 400px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .envoltura-sobre {
+            position: relative;
+            background-color: var(--fondo-sobre);
+            box-shadow: 0 15px 40px var(--sombra);
+            border-radius: 12px;
+        }
+
+        .sobre {
+            position: relative;
+            width: 400px;
+            height: 300px;
+            cursor: pointer;
+        }
+
+        .sobre::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 4;
+            border-top: 180px solid var(--solapa-sobre);
+            border-right: 200px solid transparent;
+            border-left: 200px solid transparent;
+            transform-origin: top;
+            transition: all 0.5s ease-in-out 0.7s;
+            border-radius: 12px;
+        }
+
+        .solapa-derecha,
+        .solapa-izquierda {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--cuerpo-sobre);
+            border-radius: 12px;
+        }
+
+        .solapa-derecha {
+            clip-path: polygon(100% 0, 0 100%, 100% 100%);
+        }
+
+        .solapa-izquierda {
+            clip-path: polygon(0 0, 0 100%, 100% 100%);
+        }
+
+        .carta {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primario);
+            box-shadow: 0 10px 30px var(--sombra);
+            padding: 20px;
+            border-radius: 12px;
+            display: none;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .contenido {
+            font-family: "Georgia", serif;
+            color: var(--texto);
+            text-align: left;
+            font-size: 16px;
+            border: 2px dashed var(--dorado);
+            padding: 15px;
+            height: 100%;
+            line-height: 1.6;
+            overflow-y: auto;
+            background: #fffdf7;
+        }
+
+        .contenido strong {
+            color: var(--rojo);
+        }
+
+        .spider-sello {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 45px;
+            transform: translate(-50%, -50%);
+            z-index: 999;
+            cursor: pointer;
+            transition: transform 0.5s ease-in-out 1s;
+        }
+
+        .abierto .sobre::before {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        .abierto .spider-sello {
+            transform: translate(-50%, -50%) rotate(90deg);
+        }
+
+        .carta.mostrar-carta {
+            transform: translateY(-290px);
+        }
+
+        .carta.cerrando-carta {
+            transform: translateY(-290px);
+        }
+
+        .carta.abierta {
+            z-index: 10000;
+        }
+
+        .envoltura-sobre.desactivar-sobre .sobre::before {
+            pointer-events: none;
+        }
+
+        /* 🎈 GLOBOS EN SILUETA 🎈 */
+        .globo {
+    position: fixed;
+    bottom: -60px;
+    width: 22px;
+    height: 28px;
+    background-color: #A2F4FD; /* 🔵 COLOR REAL */
+    border-radius: 50% 50% 50% 50%;
+    opacity: 0.45;
+    animation: flotar linear infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* nudito del globo */
+.globo::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    background-color: #A2F4FD;
+    transform: translateX(-50%) rotate(45deg);
+}
+
+@keyframes flotar {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-120vh);
+    }
+}
+
+
+
+        /* 📱 RESPONSIVE PARA CELULARES */
+@media (max-width: 480px) {
+
+    body {
+        padding: 10px;
+        height: auto;
+    }
+
+    h1 {
+        font-size: 30px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .contenedor {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .sobre {
+        width: 320px;
+        height: 240px;
+    }
+
+    .envoltura-sobre {
+        border-radius: 10px;
+    }
+
+    .sobre::before {
+        border-top: 140px solid var(--solapa-sobre);
+        border-right: 160px solid transparent;
+        border-left: 160px solid transparent;
+    }
+
+    .carta {
+        padding: 12px;
+    }
+
+    .contenido {
+        font-size: 14px;
+        padding: 12px;
+        line-height: 1.5;
+    }
+
+    .spider-sello {
+        width: 35px;
+    }
+
+    /* Ajuste de subida de carta */
+    .carta.mostrar-carta,
+    .carta.cerrando-carta {
+        transform: translateY(-230px);
+    }
+}
+/* 📱 RESPONSIVE PARA CELULARES */
+@media (max-width: 480px) {
+
+    body {
+        padding: 10px;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    h1 {
+        font-size: 30px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .contenedor {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .sobre {
+        width: 320px;
+        height: 240px;
+    }
+
+    .sobre::before {
+        border-top: 140px solid var(--solapa-sobre);
+        border-right: 160px solid transparent;
+        border-left: 160px solid transparent;
+    }
+
+    .carta {
+        padding: 12px;
+    }
+
+    .contenido {
+        font-size: 14px;
+        padding: 12px;
+        line-height: 1.5;
+    }
+
+    .spider-sello {
+        width: 35px;
+    }
+
+    .carta.mostrar-carta,
+    .carta.cerrando-carta {
+        transform: translateY(-230px);
+    }
+}
+
+.imagen-final {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.imagen-final img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.titulo-globos {
+    font-family: "Pacifico", cursive;
+    font-size: 44px;
+    text-align: center;
+    margin-bottom: 30px;
+
+    /* efecto globo */
+    color: red;
+    animation: flotar-titulo 3s ease-in-out infinite,
+               rgbTitulo 5s linear infinite;
+    
+    text-shadow:
+        2px 2px 0 rgba(0,0,0,0.15),
+        4px 4px 0 rgba(0,0,0,0.08);
+}
+
+/* movimiento suave */
+@keyframes flotar-titulo {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-6px); }
+    100% { transform: translateY(0); }
+}
+
+/* colores RGB */
+@keyframes rgbTitulo {
+    0%   { color: rgb(255, 80, 80); }
+    33%  { color: rgb(80, 255, 180); }
+    66%  { color: rgb(80, 150, 255); }
+    100% { color: rgb(255, 80, 80); }
+}
+
+
+    </style>
+</head>
+
+<body>
+
+<h1 class="titulo-globos">
+    Feliz cumpleaños mi gran kika
+</h1>
+
+
+
+
+<div class="contenedor">
+    <div class="envoltura-sobre">
+        <div class="sobre">
+            <div class="solapa-derecha"></div>
+            <div class="solapa-izquierda"></div>
+            <img src="lali.png" class="spider-sello">
+        </div>
+
+        <div class="carta">
+            <div class="contenido">
+                <p>
+                    <strong>Mi bella Ericka....!!!</strong><br><br>
+               
+    <p>
+        Si tu presencia fuera un color,<br>
+        serías ese <strong>azul profundo</strong> que solo se ve al inicio del alba,<br>
+        justo antes de que <strong>el sol despierte</strong>;<br>
+        la <strong>promesa tranquila</strong> de que la belleza<br>
+        siempre regresa,<br>
+        sin estridencias,<br>
+        solo con la <strong>humilde magia de existir</strong>.<br><br>
+
+        Hoy el mundo amanece distinto,<br>
+        porque celebra <strong>el día en que llegaste a él</strong>,<br>
+        y sin saberlo,<br>
+        también el día en que la vida empezó a volverse más amable<br>
+        para quienes tenemos la fortuna de <strong>encontrarte</strong>.<br><br>
+
+        Yo solo vine a ser <strong>tu jardinero</strong>,<br>
+        a cuidar el suelo donde crecen tus pasos,<br>
+        a regar esa <strong>flor invencible</strong> que llevas dentro<br>
+        y que se niega a marcharse incluso cuando el frío intenta quedarse.<br>
+        Hoy no corto flores:<br>
+        <strong>celebro que sigas floreciendo</strong>.<br><br>
+
+        No busco héroes,<br>
+        busco <strong>hogar</strong>.<br>
+        Y el hogar lo encontré en el <strong>ritmo suave de tu respiración</strong>,<br>
+        en la forma silenciosa en que tu alma me dice:<br>
+        <em>“Aquí estoy, puedes soltar todo”</em>.<br><br>
+
+        Eres la <strong>melodía</strong> que solo tarareo cuando estoy a salvo,<br>
+        el <strong>secreto precioso</strong> que se guarda en el bolsillo más íntimo<br>
+        y que se toca solo para recordar<br>
+        que <strong>la vida vale la pena</strong>.<br>
+        Hoy esa melodía cumple un año más,<br>
+        y el mundo debería <strong>escucharla con atención</strong>.<br><br>
+
+        Que si el mundo te hiere,<br>
+        yo te ofrezco el <strong>tacto ligero de un pétalo</strong>,<br>
+        la promesa de que no existe herida<br>
+        que el <strong>amor paciente y sincero</strong><br>
+        no pueda, poco a poco,<br>
+        transformarse en <strong>paz</strong>.<br><br>
+
+        Hoy no solo te deseo felicidad:<br>
+        te deseo <strong>mañanas tranquilas</strong>,<br>
+        risa que llegue sin pedir permiso,<br>
+        sueños que se atrevan a quedarse<br>
+        y un corazón que siempre recuerde<br>
+        lo <strong>profundamente amado</strong> que es.<br><br>
+
+        Eres lo <strong>más bonito que le ha pasado a mis palabras</strong>;<br>
+        la razón por la que mi corazón,<br>
+        cansado de buscar,<br>
+        por fin se sienta a escribir,<br>
+        sabiendo que ha encontrado su <strong>destino</strong><br>
+        y su <strong>calma</strong>,<br>
+        en un lugar tan simple y tan inmenso<br>
+        como es <strong>tu ser</strong>.
+
+        <strong>Feliz cumpleaños, niñotaaaa. Disculpame por tardar tanto e  hacerte tu cartita.</strong><br>
+        Gracias por <strong>existir</strong>,<br>
+        por <strong>quedarte</strong>,<br>
+        y por convertir cada día incluido hoy<br>
+        en un lugar al que <strong>siempre quiero volver</strong>.<br>
+        
+        <br>
+        Te quiero muchoteeeeeeeee <strong>Att. Kevin</strong>.
+
+    </p>
+</div>
+
+                   
+        </div>
+    </div>
+</div>
+
+
+<audio id="musica" loop>
+    <source src="1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    const envoltura = document.querySelector(".envoltura-sobre");
+    const carta = document.querySelector(".carta");
+    const musica = document.getElementById("musica");
+
+    let abierto = false;
+
+    document.addEventListener("click", (e) => {
+
+        /* ABRIR SOBRE */
+        if (
+            !abierto &&
+            (
+                e.target.matches(".sobre") ||
+                e.target.matches(".solapa-derecha") ||
+                e.target.matches(".solapa-izquierda") ||
+                e.target.matches(".spider-sello")
+            )
+        ) {
+            musica.play().catch(() => {});
+
+            envoltura.classList.add("abierto");
+            envoltura.classList.add("desactivar-sobre");
+
+            setTimeout(() => {
+                carta.style.display = "block";
+                carta.classList.add("mostrar-carta");
+
+                setTimeout(() => {
+                    carta.classList.remove("mostrar-carta");
+                    carta.classList.add("abierta");
+                    abierto = true;
+                }, 500);
+            }, 1000);
+        }
+
+        /* CERRAR CARTA Y SOBRE */
+        else if (abierto) {
+            carta.classList.add("cerrando-carta");
+
+            setTimeout(() => {
+                carta.classList.remove("cerrando-carta");
+                carta.classList.remove("abierta");
+                carta.style.display = "none";
+
+                envoltura.classList.remove("abierto");
+                envoltura.classList.remove("desactivar-sobre");
+
+                abierto = false;
+            }, 500);
+        }
+    });
+
+    /* 🎈 GLOBOS 🎈 */
+const globos = ["1"];
+
+function crearGlobo() {
+    const globo = document.createElement("div");
+    globo.className = "globo";
+    globo.style.left = Math.random() * window.innerWidth + "px";
+    globo.style.animationDuration = 14 + Math.random() * 8 + "s";
+    globo.style.fontSize = 18 + Math.random() * 20 + "px";
+    document.body.appendChild(globo);
+
+    setTimeout(() => globo.remove(), 25000);
+}
+
+setInterval(crearGlobo, 900);
+
+</script>
+
+
+<div class="imagen-final">
+    <img src="Captura_de_pantalla_2025-12-27_224957-removebg-preview.png"Navidad juntos">
+</div>
+
+
+
+</body>
+</html>
